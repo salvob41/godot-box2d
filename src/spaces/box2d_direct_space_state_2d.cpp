@@ -97,7 +97,7 @@ bool Box2DDirectSpaceState2D::_intersect_ray(const Vector2 &from, const Vector2 
 	return false;
 }
 
-bool Box2DDirectSpaceState2D::_cast_motion(const RID &shape_rid, const Transform2D &transform, const Vector2 &motion, double margin, uint32_t collision_mask, bool collide_with_bodies, bool collide_with_areas, float *p_closest_safe, float *p_closest_unsafe) {
+bool Box2DDirectSpaceState2D::_cast_motion(const RID &shape_rid, const Transform2D &transform, const Vector2 &motion, float margin, uint32_t collision_mask, bool collide_with_bodies, bool collide_with_areas, float *p_closest_safe, float *p_closest_unsafe) {
 	Box2DShape2D *shape = space->get_shape_from_rid(shape_rid);
 	ERR_FAIL_COND_V(!shape, false);
 	box2d::ShapeHandle shape_handle = shape->get_box2d_shape();
@@ -118,7 +118,7 @@ bool Box2DDirectSpaceState2D::_cast_motion(const RID &shape_rid, const Transform
 	return true;
 }
 
-bool Box2DDirectSpaceState2D::_collide_shape(const RID &shape_rid, const Transform2D &transform, const Vector2 &motion, double margin, uint32_t collision_mask, bool collide_with_bodies, bool collide_with_areas, void *results, int32_t max_results, int32_t *result_count) {
+bool Box2DDirectSpaceState2D::_collide_shape(const RID &shape_rid, const Transform2D &transform, const Vector2 &motion, float margin, uint32_t collision_mask, bool collide_with_bodies, bool collide_with_areas, void *results, int32_t max_results, int32_t *result_count) {
 	Box2DShape2D *shape = space->get_shape_from_rid(shape_rid);
 	ERR_FAIL_COND_V(!shape, false);
 	box2d::ShapeHandle shape_handle = shape->get_box2d_shape();
@@ -153,7 +153,7 @@ bool Box2DDirectSpaceState2D::_collide_shape(const RID &shape_rid, const Transfo
 	return array_idx > 0;
 }
 
-int Box2DDirectSpaceState2D::_intersect_shape(const RID &shape_rid, const Transform2D &transform, const Vector2 &motion, double margin, uint32_t collision_mask, bool collide_with_bodies, bool collide_with_areas, PhysicsServer2DExtensionShapeResult *r_results, int32_t p_result_max) {
+int Box2DDirectSpaceState2D::_intersect_shape(const RID &shape_rid, const Transform2D &transform, const Vector2 &motion, float margin, uint32_t collision_mask, bool collide_with_bodies, bool collide_with_areas, PhysicsServer2DExtensionShapeResult *r_results, int32_t p_result_max) {
 	Box2DShape2D *shape = space->get_shape_from_rid(shape_rid);
 	ERR_FAIL_COND_V(!shape, false);
 	box2d::ShapeHandle shape_handle = shape->get_box2d_shape();
@@ -198,7 +198,7 @@ int Box2DDirectSpaceState2D::_intersect_shape(const RID &shape_rid, const Transf
 	return cpt;
 }
 
-bool Box2DDirectSpaceState2D::_rest_info(const RID &shape_rid, const Transform2D &transform, const Vector2 &motion, double margin, uint32_t collision_mask, bool collide_with_bodies, bool collide_with_areas, PhysicsServer2DExtensionShapeRestInfo *r_info) {
+bool Box2DDirectSpaceState2D::_rest_info(const RID &shape_rid, const Transform2D &transform, const Vector2 &motion, float margin, uint32_t collision_mask, bool collide_with_bodies, bool collide_with_areas, PhysicsServer2DExtensionShapeRestInfo *r_info) {
 	Box2DShape2D *shape = space->get_shape_from_rid(shape_rid);
 	ERR_FAIL_COND_V(!shape, false);
 	box2d::ShapeHandle shape_handle = shape->get_box2d_shape();

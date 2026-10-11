@@ -1,4 +1,4 @@
-name: 🍏 iOS Builds
+name: iOS Builds
 on:
   workflow_call:
 
@@ -24,3 +24,5 @@ jobs:
 
       - name: Upload ${{ matrix.arch }}
         uses: ./.github/actions/upload
+        with:
+          name: ios-${{ matrix.arch }}

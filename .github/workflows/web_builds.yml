@@ -1,15 +1,15 @@
-name: 🌐 Web Builds
+name: Web Builds
 on:
   workflow_call:
 
 # Global Settings
 env:
-  EM_VERSION: 3.1.39
+  EM_VERSION: 4.0.11
   EM_CACHE_FOLDER: "emsdk-cache"
 
 jobs:
   web:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: Web Build ${{ matrix.arch }}
     strategy:
       fail-fast: false
@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Emscripten latest
-        uses: mymindstorm/setup-emsdk@v12
+        uses: emscripten-core/setup-emsdk@v16
         with:
           version: ${{env.EM_VERSION}}
           actions-cache-folder: ${{env.EM_CACHE_FOLDER}}
@@ -40,4 +40,6 @@ jobs:
 
       - name: Upload ${{ matrix.arch }}
         uses: ./.github/actions/upload
+        with:
+          name: web-${{ matrix.arch }}
     

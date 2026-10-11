@@ -51,7 +51,7 @@ class Box2DPhysicsServer2D : public PhysicsServer2DExtension {
 	RID _shape_create(ShapeType p_shape);
 
 protected:
-	static void _bind_methods(){};
+	static void _bind_methods() {};
 
 public:
 	static Box2DPhysicsServer2D *singleton;
@@ -78,11 +78,11 @@ public:
 	static void _shape_col_cbk(const Vector2 &p_point_A, const Vector2 &p_point_B, void *p_userdata);
 
 	virtual void _shape_set_data(const RID &p_shape, const Variant &p_data) override;
-	virtual void _shape_set_custom_solver_bias(const RID &p_shape, double p_bias) override;
+	virtual void _shape_set_custom_solver_bias(const RID &p_shape, float p_bias) override;
 
 	virtual ShapeType _shape_get_type(const RID &p_shape) const override;
 	virtual Variant _shape_get_data(const RID &p_shape) const override;
-	virtual double _shape_get_custom_solver_bias(const RID &p_shape) const override;
+	virtual float _shape_get_custom_solver_bias(const RID &p_shape) const override;
 
 	virtual bool _shape_collide(const RID &p_shape_A, const Transform2D &p_xform_A, const Vector2 &p_motion_A, const RID &p_shape_B, const Transform2D &p_xform_B, const Vector2 &p_motion_B, void *r_results, int32_t p_result_max, int32_t *p_result_count) override;
 
@@ -92,8 +92,8 @@ public:
 	virtual void _space_set_active(const RID &p_space, bool p_active) override;
 	virtual bool _space_is_active(const RID &p_space) const override;
 
-	virtual void _space_set_param(const RID &p_space, SpaceParameter p_param, double p_value) override;
-	virtual double _space_get_param(const RID &p_space, SpaceParameter p_param) const override;
+	virtual void _space_set_param(const RID &p_space, SpaceParameter p_param, float p_value) override;
+	virtual float _space_get_param(const RID &p_space, SpaceParameter p_param) const override;
 
 	virtual void _space_set_debug_contacts(const RID &p_space, int p_max_contacts) override;
 	virtual PackedVector2Array _space_get_contacts(const RID &p_space) const override;
@@ -170,7 +170,7 @@ public:
 	virtual void _body_clear_shapes(const RID &p_body) override;
 
 	virtual void _body_set_shape_disabled(const RID &p_body, int p_shape_idx, bool p_disabled) override;
-	virtual void _body_set_shape_as_one_way_collision(const RID &p_body, int p_shape_idx, bool p_enable, double p_margin) override;
+	virtual void _body_set_shape_as_one_way_collision(const RID &p_body, int p_shape_idx, bool p_enable, float p_margin, const Vector2 &p_direction) override;
 
 	virtual void _body_attach_object_instance_id(const RID &p_body, uint64_t p_id) override;
 	virtual uint64_t _body_get_object_instance_id(const RID &p_body) const override;
@@ -187,8 +187,8 @@ public:
 	virtual void _body_set_collision_mask(const RID &p_body, uint32_t p_mask) override;
 	virtual uint32_t _body_get_collision_mask(const RID &p_body) const override;
 
-	virtual void _body_set_collision_priority(const RID &p_body, double p_priority) override;
-	virtual double _body_get_collision_priority(const RID &p_body) const override;
+	virtual void _body_set_collision_priority(const RID &p_body, float p_priority) override;
+	virtual float _body_get_collision_priority(const RID &p_body) const override;
 
 	virtual void _body_set_param(const RID &p_body, BodyParameter p_param, const Variant &p_value) override;
 	virtual Variant _body_get_param(const RID &p_body, BodyParameter p_param) const override;
@@ -199,22 +199,22 @@ public:
 	virtual Variant _body_get_state(const RID &p_body, BodyState p_state) const override;
 
 	virtual void _body_apply_central_impulse(const RID &p_body, const Vector2 &p_impulse) override;
-	virtual void _body_apply_torque_impulse(const RID &p_body, double p_torque) override;
+	virtual void _body_apply_torque_impulse(const RID &p_body, float p_torque) override;
 	virtual void _body_apply_impulse(const RID &p_body, const Vector2 &p_impulse, const Vector2 &p_position = Vector2()) override;
 
 	virtual void _body_apply_central_force(const RID &p_body, const Vector2 &p_force) override;
 	virtual void _body_apply_force(const RID &p_body, const Vector2 &p_force, const Vector2 &p_position = Vector2()) override;
-	virtual void _body_apply_torque(const RID &p_body, double p_torque) override;
+	virtual void _body_apply_torque(const RID &p_body, float p_torque) override;
 
 	virtual void _body_add_constant_central_force(const RID &p_body, const Vector2 &p_force) override;
 	virtual void _body_add_constant_force(const RID &p_body, const Vector2 &p_force, const Vector2 &p_position = Vector2()) override;
-	virtual void _body_add_constant_torque(const RID &p_body, double p_torque) override;
+	virtual void _body_add_constant_torque(const RID &p_body, float p_torque) override;
 
 	virtual void _body_set_constant_force(const RID &p_body, const Vector2 &p_force) override;
 	virtual Vector2 _body_get_constant_force(const RID &p_body) const override;
 
-	virtual void _body_set_constant_torque(const RID &p_body, double p_torque) override;
-	virtual double _body_get_constant_torque(const RID &p_body) const override;
+	virtual void _body_set_constant_torque(const RID &p_body, float p_torque) override;
+	virtual float _body_get_constant_torque(const RID &p_body) const override;
 
 	virtual void _body_set_axis_velocity(const RID &p_body, const Vector2 &p_axis_velocity) override;
 
@@ -222,8 +222,8 @@ public:
 	virtual void _body_remove_collision_exception(const RID &p_body, const RID &p_body_b) override;
 	virtual TypedArray<RID> _body_get_collision_exceptions(const RID &p_body) const override;
 
-	virtual void _body_set_contacts_reported_depth_threshold(const RID &p_body, double p_threshold) override;
-	virtual double _body_get_contacts_reported_depth_threshold(const RID &p_body) const override;
+	virtual void _body_set_contacts_reported_depth_threshold(const RID &p_body, float p_threshold) override;
+	virtual float _body_get_contacts_reported_depth_threshold(const RID &p_body) const override;
 
 	virtual void _body_set_omit_force_integration(const RID &p_body, bool p_omit) override;
 	virtual bool _body_is_omitting_force_integration(const RID &p_body) const override;
@@ -238,7 +238,7 @@ public:
 
 	virtual void _body_set_pickable(const RID &p_body, bool p_pickable) override;
 
-	virtual bool _body_test_motion(const RID &p_body, const Transform2D &p_from, const Vector2 &p_motion, double p_margin, bool p_collide_separation_ray, bool p_recovery_as_collision, PhysicsServer2DExtensionMotionResult *r_result) const override;
+	virtual bool _body_test_motion(const RID &p_body, const Transform2D &p_from, const Vector2 &p_motion, float p_margin, bool p_collide_separation_ray, bool p_recovery_as_collision, PhysicsServer2DExtensionMotionResult *r_result) const override;
 
 	// this function only works on physics process, errors and returns null otherwise
 	virtual PhysicsDirectBodyState2D *_body_get_direct_state(const RID &p_body) override;
@@ -249,8 +249,8 @@ public:
 
 	virtual void _joint_clear(const RID &p_joint) override;
 
-	virtual void _joint_set_param(const RID &p_joint, JointParam p_param, double p_value) override;
-	virtual double _joint_get_param(const RID &p_joint, JointParam p_param) const override;
+	virtual void _joint_set_param(const RID &p_joint, JointParam p_param, float p_value) override;
+	virtual float _joint_get_param(const RID &p_joint, JointParam p_param) const override;
 
 	virtual void _joint_disable_collisions_between_bodies(const RID &p_joint, const bool p_disabled) override;
 	virtual bool _joint_is_disabled_collisions_between_bodies(const RID &p_joint) const override;
@@ -261,10 +261,10 @@ public:
 
 	virtual void _pin_joint_set_flag(const RID &joint, PhysicsServer2D::PinJointFlag flag, bool enabled) override;
 	virtual bool _pin_joint_get_flag(const RID &joint, PhysicsServer2D::PinJointFlag flag) const override;
-	virtual void _pin_joint_set_param(const RID &p_joint, PinJointParam p_param, double p_value) override;
-	virtual double _pin_joint_get_param(const RID &p_joint, PinJointParam p_param) const override;
-	virtual void _damped_spring_joint_set_param(const RID &p_joint, DampedSpringParam p_param, double p_value) override;
-	virtual double _damped_spring_joint_get_param(const RID &p_joint, DampedSpringParam p_param) const override;
+	virtual void _pin_joint_set_param(const RID &p_joint, PinJointParam p_param, float p_value) override;
+	virtual float _pin_joint_get_param(const RID &p_joint, PinJointParam p_param) const override;
+	virtual void _damped_spring_joint_set_param(const RID &p_joint, DampedSpringParam p_param, float p_value) override;
+	virtual float _damped_spring_joint_get_param(const RID &p_joint, DampedSpringParam p_param) const override;
 
 	virtual JointType _joint_get_type(const RID &p_joint) const override;
 
@@ -274,7 +274,7 @@ public:
 
 	virtual void _set_active(bool p_active) override;
 	virtual void _init() override;
-	virtual void _step(double p_step) override;
+	virtual void _step(float p_step) override;
 	virtual void _sync() override;
 	virtual void _flush_queries() override;
 	virtual void _end_sync() override;

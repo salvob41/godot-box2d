@@ -1,4 +1,4 @@
-name: 🏁 Windows Builds
+name: Windows Builds
 on:
   workflow_call:
 
@@ -27,3 +27,5 @@ jobs:
 
       - name: Upload ${{ matrix.arch }}
         uses: ./.github/actions/upload
+        with:
+          name: windows-${{ matrix.arch }}

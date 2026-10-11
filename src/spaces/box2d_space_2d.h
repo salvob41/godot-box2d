@@ -102,7 +102,7 @@ class Box2DSpace2D : public b2ContactFilter, public b2ContactListener {
 	static bool _is_handle_excluded_callback(b2World *world_handle, b2Fixture *collider_handle, b2FixtureUserData collider, const box2d::QueryExcludedInfo *handle_excluded_info);
 
 	static Object *_get_object_instance_hack(uint64_t p_object_id) {
-		return reinterpret_cast<Object *>((GodotObject *)(internal::gdextension_interface_object_get_instance_from_id(p_object_id)));
+		return reinterpret_cast<Object *>((GodotObject *)(::godot::gdextension_interface::object_get_instance_from_id(p_object_id)));
 	}
 
 public:

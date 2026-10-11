@@ -4,7 +4,7 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     permissions:
       contents: write
     steps:
@@ -20,9 +20,10 @@ jobs:
           tag_prefix: "v"
           debug: true
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: Godot Box2D
+          pattern: godot-box2d-*
+          merge-multiple: true
           path: godot-box2d
       - name: Display structure of downloaded files
         run: ls -R

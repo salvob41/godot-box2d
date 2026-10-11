@@ -188,8 +188,8 @@ void Box2DSpace2D::PreSolve(b2Contact *contact, const b2Manifold *oldManifold) {
 		b2Body *body2 = contact->GetFixtureB()->GetBody();
 		Transform2D transform_a = box2d::collider_get_transform(handle, contact->GetFixtureA()) * collision_object_1->get_transform();
 		Transform2D transform_b = box2d::collider_get_transform(handle, contact->GetFixtureB()) * collision_object_2->get_transform();
-		Vector2 allowed_local_n1 = transform_a.columns[1].normalized();
-		Vector2 allowed_local_n2 = transform_b.columns[1].normalized();
+		Vector2 allowed_local_n1 = transform_a.basis_xform(collision_object_1->get_shape_one_way_collision_direction(shape1)).normalized();
+		Vector2 allowed_local_n2 = transform_b.basis_xform(collision_object_2->get_shape_one_way_collision_direction(shape2)).normalized();
 		bool contact_is_pass_through = false;
 		b2WorldManifold worldManifold;
 		contact->GetWorldManifold(&worldManifold);

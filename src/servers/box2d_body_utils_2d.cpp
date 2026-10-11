@@ -13,7 +13,7 @@ bool should_skip_collision_one_dir(box2d::ContactResult contact, Box2DShape2D *b
 	real_t dist = contact.distance;
 	if (contact.collided && body_shape->allows_one_way_collision() && collision_body->is_shape_set_as_one_way_collision(shape_index)) {
 		real_t valid_depth = 10e20;
-		Vector2 valid_dir = col_shape_transform.columns[1].normalized();
+		Vector2 valid_dir = col_shape_transform.basis_xform(collision_body->get_shape_one_way_collision_direction(shape_index)).normalized();
 
 		real_t owc_margin = collision_body->get_shape_one_way_collision_margin(shape_index);
 		valid_depth = MAX(owc_margin, p_margin);
@@ -191,7 +191,7 @@ void Box2DBodyUtils2D::cast_motion(const Box2DSpace2D &p_space, Box2DBody2D &p_b
 			box2d::ContactResult step_contact = box2d::shapes_contact(p_space.get_handle(), body_shape_info, col_shape_info, 0.0);
 			if (step_contact.collided) {
 				if (body_shape->allows_one_way_collision() && collision_body->is_shape_set_as_one_way_collision(shape_index)) {
-					Vector2 direction = col_shape_transform.columns[1].normalized();
+					Vector2 direction = col_shape_transform.basis_xform(collision_body->get_shape_one_way_collision_direction(shape_index)).normalized();
 					if (p_motion.normalized().dot(direction) < 0) {
 						continue;
 					}
