@@ -170,11 +170,7 @@ public:
 	virtual void _body_clear_shapes(const RID &p_body) override;
 
 	virtual void _body_set_shape_disabled(const RID &p_body, int p_shape_idx, bool p_disabled) override;
-#if GODOT_VERSION_MINOR >= 7
 	virtual void _body_set_shape_as_one_way_collision(const RID &p_body, int p_shape_idx, bool p_enable, float p_margin, const Vector2 &p_direction) override;
-#else
-	virtual void _body_set_shape_as_one_way_collision(const RID &p_body, int p_shape_idx, bool p_enable, float p_margin) override;
-#endif
 
 	virtual void _body_attach_object_instance_id(const RID &p_body, uint64_t p_id) override;
 	virtual uint64_t _body_get_object_instance_id(const RID &p_body) const override;

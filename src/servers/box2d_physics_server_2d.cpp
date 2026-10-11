@@ -586,12 +586,7 @@ void Box2DPhysicsServer2D::_body_set_shape_disabled(const RID &p_body, int p_sha
 	body->set_shape_disabled(p_shape_idx, p_disabled);
 }
 
-#if GODOT_VERSION_MINOR >= 7
 void Box2DPhysicsServer2D::_body_set_shape_as_one_way_collision(const RID &p_body, int p_shape_idx, bool p_enable, float p_margin, const Vector2 &p_direction) {
-#else
-void Box2DPhysicsServer2D::_body_set_shape_as_one_way_collision(const RID &p_body, int p_shape_idx, bool p_enable, float p_margin) {
-	const Vector2 p_direction(0.0, 1.0);
-#endif
 	Box2DBody2D *body = body_owner.get_or_null(p_body);
 	ERR_FAIL_COND(!body);
 	ERR_FAIL_INDEX(p_shape_idx, body->get_shape_count());

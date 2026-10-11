@@ -115,7 +115,7 @@ public:
 		return shapes[p_index].disabled;
 	}
 
-	_FORCE_INLINE_ void set_shape_as_one_way_collision(int p_idx, bool p_one_way_collision, real_t p_margin, const Vector2 &p_direction = Vector2(0.0, 1.0)) {
+	_FORCE_INLINE_ void set_shape_as_one_way_collision(int p_idx, bool p_one_way_collision, real_t p_margin, const Vector2 &p_direction) {
 		CRASH_BAD_INDEX(p_idx, (int)shapes.size());
 		shapes[p_idx].one_way_collision = p_one_way_collision;
 		shapes[p_idx].one_way_collision_margin = p_margin;
