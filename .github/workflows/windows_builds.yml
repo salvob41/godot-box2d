@@ -27,3 +27,5 @@ jobs:
 
       - name: Upload ${{ matrix.arch }}
         uses: ./.github/actions/upload
+        with:
+          name: windows-${{ matrix.arch }}

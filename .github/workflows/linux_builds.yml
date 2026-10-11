@@ -25,4 +25,6 @@ jobs:
 
       - name: Upload ${{ matrix.arch }}
         uses: ./.github/actions/upload
+        with:
+          name: linux-${{ matrix.arch }}
     
