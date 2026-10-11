@@ -1,4 +1,4 @@
-name: 🌐 Web Builds
+name: Web Builds
 on:
   workflow_call:
 
