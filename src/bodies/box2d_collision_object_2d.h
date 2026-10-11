@@ -32,6 +32,7 @@ private:
 		bool disabled = false;
 		bool one_way_collision = false;
 		real_t one_way_collision_margin = 0.0;
+		Vector2 one_way_collision_direction = Vector2(0.0, 1.0);
 		box2d::FixtureHandle collider_handle = box2d::invalid_fixture_handle();
 	};
 
@@ -114,10 +115,11 @@ public:
 		return shapes[p_index].disabled;
 	}
 
-	_FORCE_INLINE_ void set_shape_as_one_way_collision(int p_idx, bool p_one_way_collision, real_t p_margin) {
+	_FORCE_INLINE_ void set_shape_as_one_way_collision(int p_idx, bool p_one_way_collision, real_t p_margin, const Vector2 &p_direction = Vector2(0.0, 1.0)) {
 		CRASH_BAD_INDEX(p_idx, (int)shapes.size());
 		shapes[p_idx].one_way_collision = p_one_way_collision;
 		shapes[p_idx].one_way_collision_margin = p_margin;
+		shapes[p_idx].one_way_collision_direction = p_direction;
 	}
 	_FORCE_INLINE_ bool is_shape_set_as_one_way_collision(int p_idx) const {
 		CRASH_BAD_INDEX(p_idx, (int)shapes.size());
@@ -127,6 +129,11 @@ public:
 	_FORCE_INLINE_ real_t get_shape_one_way_collision_margin(int p_idx) const {
 		CRASH_BAD_INDEX(p_idx, (int)shapes.size());
 		return shapes[p_idx].one_way_collision_margin;
+	}
+
+	_FORCE_INLINE_ Vector2 get_shape_one_way_collision_direction(int p_idx) const {
+		CRASH_BAD_INDEX(p_idx, (int)shapes.size());
+		return shapes[p_idx].one_way_collision_direction;
 	}
 
 	void set_collision_mask(uint32_t p_mask) {

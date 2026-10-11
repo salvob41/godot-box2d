@@ -98,7 +98,7 @@ void Box2DPhysicsServer2D::_shape_set_data(const RID &p_shape, const Variant &p_
 	shape->set_data(p_data);
 };
 
-void Box2DPhysicsServer2D::_shape_set_custom_solver_bias(const RID &p_shape, double p_bias) {
+void Box2DPhysicsServer2D::_shape_set_custom_solver_bias(const RID &p_shape, float p_bias) {
 	if (p_bias != 0.0) {
 		WARN_PRINT_ONCE("Shape custom solver bias is not supported with Box2D");
 	}
@@ -117,7 +117,7 @@ Variant Box2DPhysicsServer2D::_shape_get_data(const RID &p_shape) const {
 	return shape->get_data();
 };
 
-double Box2DPhysicsServer2D::_shape_get_custom_solver_bias(const RID &p_shape) const {
+float Box2DPhysicsServer2D::_shape_get_custom_solver_bias(const RID &p_shape) const {
 	return 0.0;
 }
 
@@ -187,14 +187,14 @@ bool Box2DPhysicsServer2D::_space_is_active(const RID &p_space) const {
 	return active_spaces.has(box2d::handle_hash(space->get_handle()));
 }
 
-void Box2DPhysicsServer2D::_space_set_param(const RID &p_space, SpaceParameter p_param, double p_value) {
+void Box2DPhysicsServer2D::_space_set_param(const RID &p_space, SpaceParameter p_param, float p_value) {
 	Box2DSpace2D *space = space_owner.get_or_null(p_space);
 	ERR_FAIL_COND(!space);
 
 	space->set_param(p_param, p_value);
 }
 
-double Box2DPhysicsServer2D::_space_get_param(const RID &p_space, SpaceParameter p_param) const {
+float Box2DPhysicsServer2D::_space_get_param(const RID &p_space, SpaceParameter p_param) const {
 	const Box2DSpace2D *space = space_owner.get_or_null(p_space);
 	ERR_FAIL_COND_V(!space, 0);
 	return space->get_param(p_param);
@@ -586,13 +586,18 @@ void Box2DPhysicsServer2D::_body_set_shape_disabled(const RID &p_body, int p_sha
 	body->set_shape_disabled(p_shape_idx, p_disabled);
 }
 
-void Box2DPhysicsServer2D::_body_set_shape_as_one_way_collision(const RID &p_body, int p_shape_idx, bool p_enable, double p_margin) {
+#if GODOT_VERSION_MINOR >= 7
+void Box2DPhysicsServer2D::_body_set_shape_as_one_way_collision(const RID &p_body, int p_shape_idx, bool p_enable, float p_margin, const Vector2 &p_direction) {
+#else
+void Box2DPhysicsServer2D::_body_set_shape_as_one_way_collision(const RID &p_body, int p_shape_idx, bool p_enable, float p_margin) {
+	const Vector2 p_direction(0.0, 1.0);
+#endif
 	Box2DBody2D *body = body_owner.get_or_null(p_body);
 	ERR_FAIL_COND(!body);
 	ERR_FAIL_INDEX(p_shape_idx, body->get_shape_count());
 	FLUSH_QUERY_CHECK(body);
 
-	body->set_shape_as_one_way_collision(p_shape_idx, p_enable, p_margin);
+	body->set_shape_as_one_way_collision(p_shape_idx, p_enable, p_margin, p_direction);
 }
 
 void Box2DPhysicsServer2D::_body_set_continuous_collision_detection_mode(const RID &p_body, CCDMode p_mode) {
@@ -662,14 +667,14 @@ uint32_t Box2DPhysicsServer2D::_body_get_collision_mask(const RID &p_body) const
 	return body->get_collision_mask();
 }
 
-void Box2DPhysicsServer2D::_body_set_collision_priority(const RID &p_body, double p_priority) {
+void Box2DPhysicsServer2D::_body_set_collision_priority(const RID &p_body, float p_priority) {
 	Box2DBody2D *body = body_owner.get_or_null(p_body);
 	ERR_FAIL_COND(!body);
 
 	body->set_collision_priority(p_priority);
 }
 
-double Box2DPhysicsServer2D::_body_get_collision_priority(const RID &p_body) const {
+float Box2DPhysicsServer2D::_body_get_collision_priority(const RID &p_body) const {
 	const Box2DBody2D *body = body_owner.get_or_null(p_body);
 	ERR_FAIL_COND_V(!body, 0);
 
@@ -724,7 +729,7 @@ void Box2DPhysicsServer2D::_body_apply_central_impulse(const RID &p_body, const 
 	body->apply_central_impulse(p_impulse);
 }
 
-void Box2DPhysicsServer2D::_body_apply_torque_impulse(const RID &p_body, double p_torque) {
+void Box2DPhysicsServer2D::_body_apply_torque_impulse(const RID &p_body, float p_torque) {
 	Box2DBody2D *body = body_owner.get_or_null(p_body);
 	ERR_FAIL_COND(!body);
 
@@ -752,7 +757,7 @@ void Box2DPhysicsServer2D::_body_apply_force(const RID &p_body, const Vector2 &p
 	body->apply_force(p_force, p_position);
 }
 
-void Box2DPhysicsServer2D::_body_apply_torque(const RID &p_body, double p_torque) {
+void Box2DPhysicsServer2D::_body_apply_torque(const RID &p_body, float p_torque) {
 	Box2DBody2D *body = body_owner.get_or_null(p_body);
 	ERR_FAIL_COND(!body);
 
@@ -773,7 +778,7 @@ void Box2DPhysicsServer2D::_body_add_constant_force(const RID &p_body, const Vec
 	body->add_constant_force(p_force, p_position);
 }
 
-void Box2DPhysicsServer2D::_body_add_constant_torque(const RID &p_body, double p_torque) {
+void Box2DPhysicsServer2D::_body_add_constant_torque(const RID &p_body, float p_torque) {
 	Box2DBody2D *body = body_owner.get_or_null(p_body);
 	ERR_FAIL_COND(!body);
 
@@ -794,14 +799,14 @@ Vector2 Box2DPhysicsServer2D::_body_get_constant_force(const RID &p_body) const 
 	return body->get_constant_force();
 }
 
-void Box2DPhysicsServer2D::_body_set_constant_torque(const RID &p_body, double p_torque) {
+void Box2DPhysicsServer2D::_body_set_constant_torque(const RID &p_body, float p_torque) {
 	Box2DBody2D *body = body_owner.get_or_null(p_body);
 	ERR_FAIL_COND(!body);
 
 	body->set_constant_torque(p_torque);
 }
 
-double Box2DPhysicsServer2D::_body_get_constant_torque(const RID &p_body) const {
+float Box2DPhysicsServer2D::_body_get_constant_torque(const RID &p_body) const {
 	Box2DBody2D *body = body_owner.get_or_null(p_body);
 	ERR_FAIL_COND_V(!body, 0);
 
@@ -852,12 +857,12 @@ TypedArray<RID> Box2DPhysicsServer2D::_body_get_collision_exceptions(const RID &
 	return array;
 };
 
-void Box2DPhysicsServer2D::_body_set_contacts_reported_depth_threshold(const RID &p_body, double p_threshold) {
+void Box2DPhysicsServer2D::_body_set_contacts_reported_depth_threshold(const RID &p_body, float p_threshold) {
 	Box2DBody2D *body = body_owner.get_or_null(p_body);
 	ERR_FAIL_COND(!body);
 };
 
-double Box2DPhysicsServer2D::_body_get_contacts_reported_depth_threshold(const RID &p_body) const {
+float Box2DPhysicsServer2D::_body_get_contacts_reported_depth_threshold(const RID &p_body) const {
 	Box2DBody2D *body = body_owner.get_or_null(p_body);
 	ERR_FAIL_COND_V(!body, 0);
 	return 0;
@@ -914,7 +919,7 @@ void Box2DPhysicsServer2D::_body_set_pickable(const RID &p_body, bool p_pickable
 	body->set_pickable(p_pickable);
 }
 
-bool Box2DPhysicsServer2D::_body_test_motion(const RID &p_body, const Transform2D &p_from, const Vector2 &p_motion, double p_margin, bool p_collide_separation_ray, bool p_recovery_as_collision, PhysicsServer2DExtensionMotionResult *r_result) const {
+bool Box2DPhysicsServer2D::_body_test_motion(const RID &p_body, const Transform2D &p_from, const Vector2 &p_motion, float p_margin, bool p_collide_separation_ray, bool p_recovery_as_collision, PhysicsServer2DExtensionMotionResult *r_result) const {
 	Box2DBody2D *body = body_owner.get_or_null(p_body);
 	ERR_FAIL_COND_V(!body, false);
 	ERR_FAIL_COND_V(!body->get_space(), false);
@@ -962,7 +967,7 @@ void Box2DPhysicsServer2D::_joint_clear(const RID &p_joint) {
 	}
 }
 
-void Box2DPhysicsServer2D::_joint_set_param(const RID &p_joint, JointParam p_param, double p_value) {
+void Box2DPhysicsServer2D::_joint_set_param(const RID &p_joint, JointParam p_param, float p_value) {
 	Box2DJoint2D *joint = joint_owner.get_or_null(p_joint);
 	ERR_FAIL_COND(!joint);
 
@@ -979,7 +984,7 @@ void Box2DPhysicsServer2D::_joint_set_param(const RID &p_joint, JointParam p_par
 	}
 }
 
-double Box2DPhysicsServer2D::_joint_get_param(const RID &p_joint, JointParam p_param) const {
+float Box2DPhysicsServer2D::_joint_get_param(const RID &p_joint, JointParam p_param) const {
 	const Box2DJoint2D *joint = joint_owner.get_or_null(p_joint);
 	ERR_FAIL_COND_V(!joint, -1);
 
@@ -1082,7 +1087,7 @@ bool Box2DPhysicsServer2D::_pin_joint_get_flag(const RID &p_joint, PhysicsServer
 	return pin_joint->get_flag(p_flag);
 }
 
-void Box2DPhysicsServer2D::_pin_joint_set_param(const RID &p_joint, PinJointParam p_param, double p_value) {
+void Box2DPhysicsServer2D::_pin_joint_set_param(const RID &p_joint, PinJointParam p_param, float p_value) {
 	Box2DJoint2D *j = joint_owner.get_or_null(p_joint);
 	ERR_FAIL_COND(!j);
 	ERR_FAIL_COND(j->get_type() != JOINT_TYPE_PIN);
@@ -1091,7 +1096,7 @@ void Box2DPhysicsServer2D::_pin_joint_set_param(const RID &p_joint, PinJointPara
 	pin_joint->set_param(p_param, p_value);
 }
 
-double Box2DPhysicsServer2D::_pin_joint_get_param(const RID &p_joint, PinJointParam p_param) const {
+float Box2DPhysicsServer2D::_pin_joint_get_param(const RID &p_joint, PinJointParam p_param) const {
 	Box2DJoint2D *j = joint_owner.get_or_null(p_joint);
 	ERR_FAIL_COND_V(!j, 0);
 	ERR_FAIL_COND_V(j->get_type() != JOINT_TYPE_PIN, 0);
@@ -1100,7 +1105,7 @@ double Box2DPhysicsServer2D::_pin_joint_get_param(const RID &p_joint, PinJointPa
 	return pin_joint->get_param(p_param);
 }
 
-void Box2DPhysicsServer2D::_damped_spring_joint_set_param(const RID &p_joint, DampedSpringParam p_param, double p_value) {
+void Box2DPhysicsServer2D::_damped_spring_joint_set_param(const RID &p_joint, DampedSpringParam p_param, float p_value) {
 	Box2DJoint2D *j = joint_owner.get_or_null(p_joint);
 	ERR_FAIL_COND(!j);
 	ERR_FAIL_COND(j->get_type() != JOINT_TYPE_DAMPED_SPRING);
@@ -1109,7 +1114,7 @@ void Box2DPhysicsServer2D::_damped_spring_joint_set_param(const RID &p_joint, Da
 	dsj->set_param(p_param, p_value);
 }
 
-double Box2DPhysicsServer2D::_damped_spring_joint_get_param(const RID &p_joint, DampedSpringParam p_param) const {
+float Box2DPhysicsServer2D::_damped_spring_joint_get_param(const RID &p_joint, DampedSpringParam p_param) const {
 	Box2DJoint2D *j = joint_owner.get_or_null(p_joint);
 	ERR_FAIL_COND_V(!j, 0);
 	ERR_FAIL_COND_V(j->get_type() != JOINT_TYPE_DAMPED_SPRING, 0);
@@ -1189,7 +1194,7 @@ void Box2DPhysicsServer2D::_init() {
 	doing_sync = false;
 }
 
-void Box2DPhysicsServer2D::_step(double p_step) {
+void Box2DPhysicsServer2D::_step(float p_step) {
 	if (!active) {
 		return;
 	}

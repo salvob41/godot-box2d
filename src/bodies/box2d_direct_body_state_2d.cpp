@@ -14,12 +14,12 @@ Vector2 Box2DDirectBodyState2D::_get_total_gravity() const {
 	}
 }
 
-double Box2DDirectBodyState2D::_get_total_angular_damp() const {
+float Box2DDirectBodyState2D::_get_total_angular_damp() const {
 	ERR_FAIL_COND_V(body->get_space(), 0.0);
 	return body->total_angular_damping;
 }
 
-double Box2DDirectBodyState2D::_get_total_linear_damp() const {
+float Box2DDirectBodyState2D::_get_total_linear_damp() const {
 	ERR_FAIL_COND_V(body->get_space(), 0.0);
 	return body->total_linear_damping;
 }
@@ -32,11 +32,11 @@ Vector2 Box2DDirectBodyState2D::_get_center_of_mass_local() const {
 	return body->get_center_of_mass();
 }
 
-double Box2DDirectBodyState2D::_get_inverse_mass() const {
+float Box2DDirectBodyState2D::_get_inverse_mass() const {
 	return body->get_inv_mass();
 }
 
-double Box2DDirectBodyState2D::_get_inverse_inertia() const {
+float Box2DDirectBodyState2D::_get_inverse_inertia() const {
 	return body->get_inv_inertia();
 }
 
@@ -48,11 +48,11 @@ Vector2 Box2DDirectBodyState2D::_get_linear_velocity() const {
 	return body->get_linear_velocity();
 }
 
-void Box2DDirectBodyState2D::_set_angular_velocity(double p_velocity) {
+void Box2DDirectBodyState2D::_set_angular_velocity(float p_velocity) {
 	body->set_angular_velocity(p_velocity);
 }
 
-double Box2DDirectBodyState2D::_get_angular_velocity() const {
+float Box2DDirectBodyState2D::_get_angular_velocity() const {
 	return body->get_angular_velocity();
 }
 
@@ -76,7 +76,7 @@ void Box2DDirectBodyState2D::_apply_impulse(const Vector2 &p_impulse, const Vect
 	body->apply_impulse(p_impulse, p_position);
 }
 
-void Box2DDirectBodyState2D::_apply_torque_impulse(double p_torque) {
+void Box2DDirectBodyState2D::_apply_torque_impulse(float p_torque) {
 	body->apply_torque_impulse(p_torque);
 }
 
@@ -88,7 +88,7 @@ void Box2DDirectBodyState2D::_apply_force(const Vector2 &p_force, const Vector2 
 	body->apply_force(p_force, p_position);
 }
 
-void Box2DDirectBodyState2D::_apply_torque(double p_torque) {
+void Box2DDirectBodyState2D::_apply_torque(float p_torque) {
 	body->apply_torque(p_torque);
 }
 
@@ -100,7 +100,7 @@ void Box2DDirectBodyState2D::_add_constant_force(const Vector2 &p_force, const V
 	body->add_constant_force(p_force, p_position);
 }
 
-void Box2DDirectBodyState2D::_add_constant_torque(double p_torque) {
+void Box2DDirectBodyState2D::_add_constant_torque(float p_torque) {
 	body->add_constant_torque(p_torque);
 }
 
@@ -112,11 +112,11 @@ Vector2 Box2DDirectBodyState2D::_get_constant_force() const {
 	return body->get_constant_force();
 }
 
-void Box2DDirectBodyState2D::_set_constant_torque(double p_torque) {
+void Box2DDirectBodyState2D::_set_constant_torque(float p_torque) {
 	body->set_constant_torque(p_torque);
 }
 
-double Box2DDirectBodyState2D::_get_constant_torque() const {
+float Box2DDirectBodyState2D::_get_constant_torque() const {
 	return body->get_constant_torque();
 }
 
@@ -180,6 +180,6 @@ PhysicsDirectSpaceState2D *Box2DDirectBodyState2D::_get_space_state() {
 	return body->get_space()->get_direct_state();
 }
 
-double Box2DDirectBodyState2D::_get_step() const {
+float Box2DDirectBodyState2D::_get_step() const {
 	return body->get_space()->get_last_step();
 }
